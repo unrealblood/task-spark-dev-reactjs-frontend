@@ -16,7 +16,7 @@ function AddTask({tasks, setTasks}) {
     }
 
     return (
-        <section className="mt-4 w-[800px] flex justify-center items-center mx-auto">
+        <section className="mt-4 w-[750px] flex justify-center items-center mx-auto">
             <form className="flex justify-center items-center gap-4" onSubmit={addTaskToTasksList}>
                 <input type="text" placeholder="Enter your task" className="bg-gray-200 p-2 w-[400px] mx-auto text-xl rounded-md" value={newTaskContent} onChange={(e) => setNewTaskContent(e.target.value)} />
 

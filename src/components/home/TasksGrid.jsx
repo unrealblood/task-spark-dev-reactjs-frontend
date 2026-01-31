@@ -10,7 +10,7 @@ function TasksGrid({tasks}) {
                 <TaskItem key={index} {...task} size={tasks.length} index={index} />
             ))
             :
-            <p className="text-center">No tasks found. Maybe add some.</p>
+            <p className="text-center mt-4">No tasks found. Maybe add some.</p>
             }
         </section>
     );
