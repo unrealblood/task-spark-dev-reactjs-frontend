@@ -1,10 +1,10 @@
-import { AuthHeader } from "./components/header";
+import { Header } from "./components/header";
 import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {
   return (
     <>
-      <AuthHeader />
+      <Header />
       <AllRoutes />
     </>
   );

@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-function AuthHeader() {
+function Header() {
     return (
         <header className="flex justify-between items-center p-4 border-gray-200 border-b">
             <div className="shrink-0 flex"></div>
@@ -12,13 +12,10 @@ function AuthHeader() {
             </div>
 
             <div>
-                <nav>
-                    <Link to="/contact">Contact</Link>
-                    <button type="button" className="cursor-pointer">Logout</button>
-                </nav>
+                <button className=""><span className="bi-list text-2xl" /></button>
             </div>
         </header>
     );
 }
 
-export { AuthHeader };
+export { Header };
