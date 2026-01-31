@@ -8,7 +8,7 @@ function AuthHeaderMenu() {
             </Link>
 
             <button className="cursor-pointer flex justify-start items-center gap-2">
-                <span className="bi-envelope" /> <span>Logout</span>
+                <span className="bi-box-arrow-left" /> <span>Logout</span>
             </button>
         </div>
     );
