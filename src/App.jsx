@@ -1,7 +1,9 @@
 function App() {
   return (
     <>
-      This is Task Spark web application.
+      <div className="text-center">
+        This is Task Spark web application.
+      </div>
     </>
   );
 }
