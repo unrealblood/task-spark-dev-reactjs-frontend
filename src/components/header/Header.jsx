@@ -1,6 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router";
+import { AuthHeaderMenu, UnauthHeaderMenu } from "./";
 
 function Header() {
+    const [isAuthUser, setIsAuthUser] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
+
+    function toggleHeaderMenu() {
+        setShowMenu(!showMenu);
+    }
+
     return (
         <header className="flex justify-between items-center p-4 border-gray-200 border-b">
             <div className="shrink-0 flex"></div>
@@ -12,7 +21,14 @@ function Header() {
             </div>
 
             <div>
-                <button className=""><span className="bi-list text-2xl" /></button>
+                <div className="relative">
+                    <button className="cursor-pointer" onClick={toggleHeaderMenu}><span className="bi-list text-2xl" /></button>
+
+                    {showMenu
+                    &&
+                    (isAuthUser ? <AuthHeaderMenu /> : <UnauthHeaderMenu />)
+                    }
+                </div>
             </div>
         </header>
     );
