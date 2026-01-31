@@ -1,28 +1,14 @@
-import { TasksGrid } from "../components/home";
+import { useState } from "react";
+import { AddTask, TasksGrid } from "../components/home";
 
 function Home() {
-    const tasks = [
-        {
-            id: 0,
-            content: "Task item 1",
-            completed: false
-        },
-        {
-            id: 1,
-            content: "Task item 2",
-            completed: true
-        },
-        {
-            id: 2,
-            content: "Task item 3",
-            completed: false
-        },
-    ];
+    const [tasks, setTasks] = useState([]);
 
     return (
         <div className="mt-4">
-            <h2 className="text-center font-bold text-2xl underline">All Tasks</h2>
+            <h2 className="text-center font-bold text-3xl underline">All Tasks</h2>
 
+            <AddTask tasks={tasks} setTasks={setTasks} />
             <TasksGrid tasks={tasks} />
         </div>
     );

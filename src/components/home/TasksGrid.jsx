@@ -2,17 +2,17 @@ import { TaskItem } from "./";
 
 function TasksGrid({tasks}) {
     return (
-        <div className="mt-4 w-[800px] m-auto">
+        <section className="mt-4 w-[600px] mx-auto">
             {
             (tasks.length > 0)
             ?
-            tasks.map((task) => (
-                <TaskItem key={task.id} {...task} />
+            tasks.map((task, index) => (
+                <TaskItem key={index} {...task} size={tasks.length} index={index} />
             ))
             :
             <p className="text-center">No tasks found. Maybe add some.</p>
             }
-        </div>
+        </section>
     );
 }
 
