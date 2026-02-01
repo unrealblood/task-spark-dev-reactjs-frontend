@@ -1,6 +1,12 @@
+import { useSelector } from "react-redux";
 import { TaskItem } from "./";
 
-function TasksGrid({tasks}) {
+function TasksGrid() {
+    let tasks = useSelector(state => state.tasks);
+    const currentFilter = useSelector(state => state.taskFilter);
+
+    tasks = (currentFilter === "all") ? tasks : tasks.filter((task) => task.completed === true);
+
     return (
         <section className="mt-4 w-[600px] mx-auto">
             {

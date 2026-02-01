@@ -1,28 +1,36 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteTask, toggleCompleted, updateTask } from "../../redux/slices/taskSlice";
 
-function TaskItem({content, completed, size, index}) {
+function TaskItem({id, content, completed, size, index}) {
+    const dispatch = useDispatch();
+
     const [newTaskContent, setNewTaskContent] = useState(content);
     const [isTaskCompleted, setIsTaskCompleted] = useState(completed);
     const [isEditMode, setIsEditMode] = useState(false);
 
-    function editTask() {
+    function handleEditTask() {
         setIsEditMode(true);
     }
 
-    function closeEditMode() {
+    function handleCloseEditMode() {
         setIsEditMode(false);
     }
 
-    function toggleTaskCompletion() {
+    function handleToggleTaskCompletion() {
         setIsTaskCompleted(!isTaskCompleted);
+        dispatch(toggleCompleted(id));
     }
 
-    function deleteTask() {
-
+    function handleDeleteTask() {
+        dispatch(deleteTask(id));
     }
 
     function handleEditTaskSubmit(e) {
         e.preventDefault();
+
+        dispatch(updateTask({id, content: newTaskContent}));
+        setIsEditMode(false);
     }
 
     return (
@@ -36,13 +44,13 @@ function TaskItem({content, completed, size, index}) {
 
                         <div className="flex justify-start items-center gap-4">
                             <div>
-                                <button type="button" className="cursor-pointer" onClick={closeEditMode}>
+                                <button type="submit" className="cursor-pointer">
                                     <span className={`bi-check-circle text-green-500 text-2xl`} />
                                 </button>
                             </div>
 
                             <div>
-                                <button type="submit" className="cursor-pointer" onClick={closeEditMode}>
+                                <button type="button" className="cursor-pointer" onClick={handleCloseEditMode}>
                                     <span className={`bi-x-circle text-2xl text-red-500`} />
                                 </button>
                             </div>
@@ -52,23 +60,23 @@ function TaskItem({content, completed, size, index}) {
             </div>
             :
             <div className={`flex justify-between items-center p-2 ${(size !== (index + 1)) && `border-b border-gray-200`}`}>
-                <div className={`text-2xl ${isTaskCompleted && `line-through`}`}>{content}</div>
+                <div className={`text-2xl ${isTaskCompleted && `line-through`}`}>{id}, {content}</div>
 
                 <div className="flex justify-start items-center gap-4">
                     <div>
-                        <button type="button" className="cursor-pointer" onClick={editTask}>
+                        <button type="button" className="cursor-pointer" onClick={handleEditTask}>
                             <span className={`bi-pen text-2xl text-yellow-500`} />
                         </button>
                     </div>
 
                     <div>
-                        <button type="button" className="cursor-pointer" onClick={toggleTaskCompletion}>
+                        <button type="button" className="cursor-pointer" onClick={handleToggleTaskCompletion}>
                             <span className={`${isTaskCompleted ? `bi-x-circle text-blue-500` : `bi-check-circle text-green-500`} text-2xl`} />
                         </button>
                     </div>
 
                     <div>
-                        <button type="button" className="cursor-pointer" onClick={deleteTask}>
+                        <button type="button" className="cursor-pointer" onClick={handleDeleteTask}>
                             <span className={`bi-trash text-2xl text-red-500`} />
                         </button>
                     </div>

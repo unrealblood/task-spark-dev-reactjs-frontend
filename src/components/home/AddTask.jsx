@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask } from "../../redux/slices/taskSlice";
 
-function AddTask({tasks, setTasks}) {
-    const newTask = {content: "", completed: false};
+function AddTask() {
+    const tasks = useSelector(state => state.tasks);
+    const dispatch = useDispatch();
+
+    const newTask = {id: -1, content: "", completed: false};
 
     const [newTaskContent, setNewTaskContent] = useState("");
 
@@ -12,7 +17,7 @@ function AddTask({tasks, setTasks}) {
             return;
         }
 
-        setTasks([...tasks, {...newTask, content: newTaskContent}]);
+        dispatch(addTask({...newTask, id: tasks.length, content: newTaskContent}));
     }
 
     return (
