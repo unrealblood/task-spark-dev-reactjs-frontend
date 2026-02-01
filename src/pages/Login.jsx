@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
+import { useLoginUser } from "../lib/tanstack-query/auth";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -6,16 +9,22 @@ function Login() {
     const [reactionMessage, setReactionMessage] = useState("");
     const [reactionMessageType, setReactionMessageType] = useState("success");
 
+    const navigate = useNavigate();
+
+    const loginUserMutation = useLoginUser();
+
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const result = await registerUserMutation.mutateAsync({
+        const result = await loginUserMutation.mutateAsync({
             email,
             password
         });
 
         if(result.success) {
-            return;
+            console.log(result);
+
+            navigate("/");
         }
         
         if(result.error) {
