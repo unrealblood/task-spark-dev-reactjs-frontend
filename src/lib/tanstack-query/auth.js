@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-export const useUserRegister = () => {
+export const useRegisterUser = () => {
     const queryClient = useQueryClient();
 
     return useMutation({

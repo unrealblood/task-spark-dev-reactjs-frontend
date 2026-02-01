@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUserRegister } from "../lib/tanstack-query/auth";
+import { useRegisterUser } from "../lib/tanstack-query/auth";
 
 function Register() {
     const [name, setName] = useState("");
@@ -8,7 +8,7 @@ function Register() {
     const [reactionMessage, setReactionMessage] = useState("");
     const [reactionMessageType, setReactionMessageType] = useState("success");
 
-    const registerUserMutation = useUserRegister();
+    const registerUserMutation = useRegisterUser();
 
     async function handleSubmit(e) {
         e.preventDefault();
