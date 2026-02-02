@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useLoginUser } from "../lib/tanstack-query/auth";
 import { useQueryClient } from "@tanstack/react-query";
+import { setIsAuthenticated } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ function Login() {
     const [reactionMessageType, setReactionMessageType] = useState("success");
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const queryClient = useQueryClient();
 
     const loginUserMutation = useLoginUser();
@@ -27,6 +30,8 @@ function Login() {
 
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("userId", result.userId.toString());
+
+            dispatch(setIsAuthenticated(true));
 
             queryClient.invalidateQueries({ queryKey: ["getUserQuery"] });
 

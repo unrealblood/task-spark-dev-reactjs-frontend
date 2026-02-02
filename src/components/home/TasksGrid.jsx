@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { TaskItem } from "./";
 
 function TasksGrid() {
-    let tasks = useSelector(state => state.tasks);
-    const currentFilter = useSelector(state => state.taskFilter);
+    let tasks = useSelector(state => state.tasks.tasks);
+    const currentFilter = useSelector(state => state.tasks.taskFilter);
 
     tasks = (currentFilter === "all") ? tasks : tasks.filter((task) => task.completed === true);
 

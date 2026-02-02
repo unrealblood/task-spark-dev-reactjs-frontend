@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { AuthHeaderMenu, UnauthHeaderMenu } from "./";
+import { useSelector } from "react-redux";
 
 function Header() {
-    const isAuthenticated = true;
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
     const [showMenu, setShowMenu] = useState(false);
 
     function toggleHeaderMenu() {

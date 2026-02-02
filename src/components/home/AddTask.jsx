@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../../redux/slices/taskSlice";
 
 function AddTask() {
-    const tasks = useSelector(state => state.tasks);
+    const tasks = useSelector(state => state.tasks.tasks);
     const dispatch = useDispatch();
 
     const newTask = {id: -1, content: "", completed: false};

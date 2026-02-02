@@ -1,14 +1,19 @@
 import { Link, useNavigate } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { setIsAuthenticated } from "../../redux/slices/authSlice";
 
 function AuthHeaderMenu() {
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
     const queryClient = useQueryClient();
 
     function handleLogout() {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("userId");
+
+        dispatch(setIsAuthenticated(false));
 
         queryClient.clear();
 

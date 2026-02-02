@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTaskFilter } from "../redux/slices/taskSlice";
 
 function Home() {
-    const filter = useSelector(state => state.taskFilter);
+    const filter = useSelector(state => state.tasks.taskFilter);
     const dispatch = useDispatch();
 
     function changeFilter(newFilter) {
