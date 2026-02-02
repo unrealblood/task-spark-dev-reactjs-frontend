@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, toggleCompleted, updateTask } from "../../redux/slices/taskSlice";
-import { useDeleteTask } from "../../lib/tanstack-query/task";
+import { useDeleteTask, useUpdateTaskCompleted, useUpdateTaskContent } from "../../lib/tanstack-query/task";
 
 function TaskItem({_id, content, completed, size, index}) {
     const dispatch = useDispatch();
@@ -11,6 +11,8 @@ function TaskItem({_id, content, completed, size, index}) {
     const [isEditMode, setIsEditMode] = useState(false);
 
     const deleteTaskMutation = useDeleteTask(_id.toString());
+    const toggleTaskCompletedMutation = useUpdateTaskCompleted(_id.toString());
+    const updateTaskContentMutation = useUpdateTaskContent(_id.toString());
 
     function handleEditTask() {
         setIsEditMode(true);
@@ -20,8 +22,13 @@ function TaskItem({_id, content, completed, size, index}) {
         setIsEditMode(false);
     }
 
-    function handleToggleTaskCompletion() {
+    async function handleToggleTaskCompletion() {
+        await toggleTaskCompletedMutation.mutateAsync({
+            newCompleted: !isTaskCompleted
+        });
+
         setIsTaskCompleted(!isTaskCompleted);
+
         dispatch(toggleCompleted(_id));
     }
 
@@ -31,10 +38,19 @@ function TaskItem({_id, content, completed, size, index}) {
         dispatch(deleteTask(_id));
     }
 
-    function handleEditTaskSubmit(e) {
+    async function handleEditTaskSubmit(e) {
         e.preventDefault();
 
+        if(newTaskContent === "" || newTaskContent.trim().length === 0) {
+            return;
+        }
+
+        await updateTaskContentMutation.mutateAsync({
+            newContent: newTaskContent
+        });
+
         dispatch(updateTask({_id, content: newTaskContent}));
+        
         setIsEditMode(false);
     }
 

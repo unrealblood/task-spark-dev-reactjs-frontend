@@ -41,7 +41,7 @@ export const useAddTask = () => {
     });
 }
 
-export const useUpdateTaskContent = ({taskId}) => {
+export const useUpdateTaskContent = (taskId) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -68,7 +68,7 @@ export const useUpdateTaskContent = ({taskId}) => {
     });
 }
 
-export const useUpdateTaskCompleted = ({taskId}) => {
+export const useUpdateTaskCompleted = (taskId) => {
     const queryClient = useQueryClient();
 
     return useMutation({
