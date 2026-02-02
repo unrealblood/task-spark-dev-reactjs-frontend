@@ -22,7 +22,7 @@ export const useRegisterUser = () => {
         },
 
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["registerQuery"] });
+            queryClient.invalidateQueries({ queryKey: ["getUserQuery"] });
         }
     });
 }
@@ -49,7 +49,7 @@ export const useLoginUser = () => {
         },
 
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["loginQuery"] });
+            queryClient.invalidateQueries({ queryKey: ["getUserQuery"] });
         }
     });
 }

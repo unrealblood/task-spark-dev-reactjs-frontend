@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { AuthHeaderMenu, UnauthHeaderMenu } from "./";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
 
 function Header() {
+    const isAuthenticated = true;
     const [showMenu, setShowMenu] = useState(false);
-
-    const { isAuthUser } = useContext(AuthContext);
 
     function toggleHeaderMenu() {
         setShowMenu(!showMenu);
@@ -29,7 +26,7 @@ function Header() {
 
                     {showMenu
                     &&
-                    (isAuthUser ? <AuthHeaderMenu /> : <UnauthHeaderMenu />)
+                    (isAuthenticated ? <AuthHeaderMenu /> : <UnauthHeaderMenu />)
                     }
                 </div>
             </div>

@@ -1,17 +1,16 @@
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 function AuthHeaderMenu() {
     const navigate = useNavigate();
 
-    const { setIsAuthUser } = useContext(AuthContext);
+    const queryClient = useQueryClient();
 
     function handleLogout() {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("userId");
 
-        setIsAuthUser(false);
+        queryClient.clear();
 
         navigate("/auth/login");
     }

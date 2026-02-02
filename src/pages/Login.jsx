@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-
 import { useLoginUser } from "../lib/tanstack-query/auth";
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -12,10 +10,9 @@ function Login() {
     const [reactionMessageType, setReactionMessageType] = useState("success");
 
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const loginUserMutation = useLoginUser();
-
-    const { setIsAuthUser } = useContext(AuthContext);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -31,7 +28,7 @@ function Login() {
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("userId", result.userId.toString());
 
-            setIsAuthUser(true);
+            queryClient.invalidateQueries({ queryKey: ["getUserQuery"] });
 
             navigate("/");
         }
