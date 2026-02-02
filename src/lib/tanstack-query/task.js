@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 
-export const useGetAllTasks = async (userId) => 
+export const useGetAllTasks = (userId) => 
     useQuery({
         queryKey: ["getAllTasksQuery"],
         queryFn: async () => {

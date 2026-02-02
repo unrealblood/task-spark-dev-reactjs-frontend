@@ -1,19 +1,39 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TaskItem } from "./";
+import { useGetAllTasks } from "../../lib/tanstack-query/task";
+import { setTasks } from "../../redux/slices/taskSlice";
+import { useEffect } from "react";
 
 function TasksGrid() {
-    let tasks = useSelector(state => state.tasks.tasks);
-    const currentFilter = useSelector(state => state.tasks.taskFilter);
+    let fetchedTasks = [];
+    let filteredTasks = [];
 
-    tasks = (currentFilter === "all") ? tasks : tasks.filter((task) => task.completed === true);
+    const tasks = useSelector(state => state.tasks.tasks);
+    const currentFilter = useSelector(state => state.tasks.taskFilter);
+    const dispatch = useDispatch();
+
+    const userId = localStorage.getItem("userId");
+    const { data, isPending, isFetched } = useGetAllTasks(userId);
+
+    fetchedTasks = data?.tasks ?? [];
+
+    useEffect(() => {
+        if(isFetched) {
+            dispatch(setTasks(fetchedTasks));
+        }
+    }, [isFetched, fetchedTasks, dispatch]);
+
+    filteredTasks = (currentFilter === "all") ? tasks : tasks.filter((task) => task.completed === true);
+
+    if(isPending && userId) { return (<p className="text-center mt-4">Loading tasks...</p>);}
 
     return (
         <section className="mt-4 w-[600px] mx-auto">
             {
-            (tasks.length > 0)
+            (filteredTasks.length > 0)
             ?
-            tasks.map((task, index) => (
-                <TaskItem key={index} {...task} size={tasks.length} index={index} />
+            filteredTasks.map((task, index) => (
+                <TaskItem key={index} {...task} size={filteredTasks.length} index={index} />
             ))
             :
             <p className="text-center mt-4">No tasks found. Maybe add some.</p>
