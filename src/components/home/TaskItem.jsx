@@ -50,7 +50,7 @@ function TaskItem({_id, content, completed, size, index}) {
         });
 
         dispatch(updateTask({_id, content: newTaskContent}));
-        
+
         setIsEditMode(false);
     }
 
@@ -81,7 +81,7 @@ function TaskItem({_id, content, completed, size, index}) {
             </div>
             :
             <div className={`flex justify-between items-center p-2 ${(size !== (index + 1)) && `border-b border-gray-200`}`}>
-                <div className={`text-2xl ${isTaskCompleted && `line-through`}`}>{_id}, {content}</div>
+                <div className={`text-2xl ${isTaskCompleted && `line-through`}`}>{content}</div>
 
                 <div className="flex justify-start items-center gap-4">
                     <div>
