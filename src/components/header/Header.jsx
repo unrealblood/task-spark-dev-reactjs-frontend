@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { AuthHeaderMenu, UnauthHeaderMenu } from "./";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 function Header() {
-    const [isAuthUser, setIsAuthUser] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
+
+    const { isAuthUser } = useContext(AuthContext);
 
     function toggleHeaderMenu() {
         setShowMenu(!showMenu);

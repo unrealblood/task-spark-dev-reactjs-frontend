@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import { useLoginUser } from "../lib/tanstack-query/auth";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -13,6 +15,8 @@ function Login() {
 
     const loginUserMutation = useLoginUser();
 
+    const { setIsAuthUser } = useContext(AuthContext);
+
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -22,7 +26,12 @@ function Login() {
         });
 
         if(result.success) {
-            console.log(result);
+            const accessToken = result.accessToken;
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("userId", result.userId.toString());
+
+            setIsAuthUser(true);
 
             navigate("/");
         }
