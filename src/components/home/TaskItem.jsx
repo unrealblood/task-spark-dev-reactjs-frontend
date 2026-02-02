@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, toggleCompleted, updateTask } from "../../redux/slices/taskSlice";
+import { useDeleteTask } from "../../lib/tanstack-query/task";
 
 function TaskItem({_id, content, completed, size, index}) {
     const dispatch = useDispatch();
@@ -8,6 +9,8 @@ function TaskItem({_id, content, completed, size, index}) {
     const [newTaskContent, setNewTaskContent] = useState(content);
     const [isTaskCompleted, setIsTaskCompleted] = useState(completed);
     const [isEditMode, setIsEditMode] = useState(false);
+
+    const deleteTaskMutation = useDeleteTask(_id.toString());
 
     function handleEditTask() {
         setIsEditMode(true);
@@ -19,11 +22,13 @@ function TaskItem({_id, content, completed, size, index}) {
 
     function handleToggleTaskCompletion() {
         setIsTaskCompleted(!isTaskCompleted);
-        dispatch(toggleCompleted(id));
+        dispatch(toggleCompleted(_id));
     }
 
-    function handleDeleteTask() {
-        dispatch(deleteTask(id));
+    async function handleDeleteTask() {
+        await deleteTaskMutation.mutateAsync();
+
+        dispatch(deleteTask(_id));
     }
 
     function handleEditTaskSubmit(e) {

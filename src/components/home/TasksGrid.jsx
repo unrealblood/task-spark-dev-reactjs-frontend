@@ -33,7 +33,7 @@ function TasksGrid() {
             (filteredTasks.length > 0)
             ?
             filteredTasks.map((task, index) => (
-                <TaskItem key={index} {...task} size={filteredTasks.length} index={index} />
+                <TaskItem key={task._id.toString()} {...task} size={filteredTasks.length} index={index} />
             ))
             :
             <p className="text-center mt-4">No tasks found. Maybe add some.</p>

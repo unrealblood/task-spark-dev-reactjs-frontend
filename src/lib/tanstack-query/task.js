@@ -95,10 +95,11 @@ export const useUpdateTaskCompleted = ({taskId}) => {
     });
 }
 
-export const useDeleteTask = async (taskId) => 
-    useQuery({
-        queryKey: ["deleteTaskQuery"],
-        queryFn: async () => {
+export const useDeleteTask = (taskId) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async () => {
             const response = await fetch(`http://localhost:5000/tasks/delete-task/${taskId}`, {
                 method: "DELETE"
             });
@@ -106,5 +107,13 @@ export const useDeleteTask = async (taskId) =>
             const result = await response.json();
             return result;
         },
-        enabled: !!taskId
+
+        onError: (error) => {
+            throw new Error("Delete task mutation error. Error: " + error.message);
+        },
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["getAllTasksQuery"]});
+        }
     });
+}
