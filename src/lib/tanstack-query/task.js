@@ -4,7 +4,7 @@ export const useGetAllTasks = (userId) =>
     useQuery({
         queryKey: ["getAllTasksQuery"],
         queryFn: async () => {
-            const response = await fetch(`http://localhost:5000/tasks/get-all/${userId}`, {
+            const response = await fetch(`http://localhost:8000/tasks/get-all/${userId}`, {
                 method: "GET"
             });
 
@@ -19,7 +19,7 @@ export const useAddTask = () => {
 
     return useMutation({
         mutationFn: async ({content, completed, userId}) => {
-            const response = await fetch("http://localhost:5000/tasks/add-task", {
+            const response = await fetch("http://localhost:8000/tasks/add-task", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -46,7 +46,7 @@ export const useUpdateTaskContent = (taskId) => {
 
     return useMutation({
         mutationFn: async ({newContent}) => {
-            const response = await fetch(`http://localhost:5000/tasks/update-task-content/${taskId}`, {
+            const response = await fetch(`http://localhost:8000/tasks/update-task-content/${taskId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -73,7 +73,7 @@ export const useUpdateTaskCompleted = (taskId) => {
 
     return useMutation({
         mutationFn: async ({newCompleted}) => {
-            const response = await fetch(`http://localhost:5000/tasks/update-task-completed/${taskId}`, {
+            const response = await fetch(`http://localhost:8000/tasks/update-task-completed/${taskId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -100,7 +100,7 @@ export const useDeleteTask = (taskId) => {
 
     return useMutation({
         mutationFn: async () => {
-            const response = await fetch(`http://localhost:5000/tasks/delete-task/${taskId}`, {
+            const response = await fetch(`http://localhost:8000/tasks/delete-task/${taskId}`, {
                 method: "DELETE"
             });
 
