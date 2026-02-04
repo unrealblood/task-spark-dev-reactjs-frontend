@@ -5,7 +5,7 @@ export const useGetUser = (userId) =>
     queryKey: ["getUserQuery"],
 
     queryFn: async () => {
-      const response = await fetch(`http://localhost:8000/users/get-user/${userId}`, {
+      const response = await fetch(`https://task-spark-dev-fastapi-backend.onrender.com/users/get-user/${userId}`, {
         method: "GET"
       });
       const result = await response.json();
