@@ -12,7 +12,7 @@ function Home() {
 
     return (
         <div className="mt-4">
-            <h2 className="text-center font-bold text-3xl underline">All Tasks</h2>
+            <h2 className="text-center font-bold text-2xl sm:text-3xl underline">All Tasks</h2>
 
             <AddTask />
 

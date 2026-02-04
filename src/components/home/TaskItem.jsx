@@ -61,7 +61,7 @@ function TaskItem({_id, content, completed, size, index}) {
             <div className={`flex justify-between items-center p-2 ${(size !== (index + 1)) && `border-b border-gray-200`}`}>
                 <div className={`text-2xl ${isTaskCompleted && `line-through`}`}>
                     <form onSubmit={handleEditTaskSubmit} className="flex justify-between items-center gap-4 p-2">
-                        <input type="text" placeholder="New task content here" className="bg-gray-200 p-2 w-[480px]" value={newTaskContent} onChange={(e) => setNewTaskContent(e.target.value)} />
+                        <input type="text" placeholder="New task content here" className="bg-gray-200 p-2 sm:w-[480px] w-[250px]" value={newTaskContent} onChange={(e) => setNewTaskContent(e.target.value)} />
 
                         <div className="flex justify-start items-center gap-4">
                             <div>

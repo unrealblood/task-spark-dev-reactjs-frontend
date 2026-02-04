@@ -28,7 +28,7 @@ function TasksGrid() {
     if(isPending && userId) { return (<p className="text-center mt-4">Loading tasks...</p>);}
 
     return (
-        <section className="mt-4 w-[600px] mx-auto">
+        <section className="mt-4 sm:w-[600px] w-[350px] mx-auto">
             {
             (filteredTasks.length > 0)
             ?

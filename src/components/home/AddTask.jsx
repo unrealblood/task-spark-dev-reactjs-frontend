@@ -32,10 +32,10 @@ function AddTask() {
     }
 
     return (
-        <section className="mt-4 w-[750px] flex justify-center items-center mx-auto">
+        <section className="mt-4 sm:w-[750px] w-[280px] flex justify-center items-center mx-auto">
             <div className="flex justify-center items-center flex-col gap-2">
                 <form className="flex justify-center items-center gap-4" onSubmit={addTaskToTasksList}>
-                    <input type="text" placeholder="Enter your task" className="bg-gray-200 p-2 w-[400px] mx-auto text-xl rounded-md" value={newTaskContent} onChange={(e) => setNewTaskContent(e.target.value)} />
+                    <input type="text" placeholder="Enter your task" className="bg-gray-200 p-2 sm:w-[400px] w-[250px] mx-auto text-xl rounded-md" value={newTaskContent} onChange={(e) => setNewTaskContent(e.target.value)} />
 
                     <button type="submit" className="bg-green-500 text-white px-8 py-2  rounded-md cursor-pointer">Add</button>
                 </form>
