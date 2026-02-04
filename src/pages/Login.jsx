@@ -46,7 +46,7 @@ function Login() {
     }
 
     return (
-        <div className="w-[500px] mx-auto mt-4">
+        <div className="sm:w-[500px] w-[320px] mx-auto mt-4">
             <h1 className="text-center text-3xl font-bold underline">Login</h1>
 
             <form onSubmit={handleSubmit}>
@@ -56,12 +56,12 @@ function Login() {
                     <div className="flex flex-col justify-center items-center gap-4">
                         <div className="flex flex-col justify-start items-start gap-2">
                             <label htmlFor="email">Email Address</label>
-                            <input id="email" type="email" placeholder="Enter your email address" className="bg-gray-200 p-2 rounded-md w-[350px]" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <input id="email" type="email" placeholder="Enter your email address" className="bg-gray-200 p-2 rounded-md sm:w-[350px] w-[300px]" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
 
                         <div className="flex flex-col justify-start items-start gap-2">
                             <label htmlFor="password">Password</label>
-                            <input id="password" type="password" placeholder="Enter your password" className="bg-gray-200 p-2 rounded-md w-[350px]" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <input id="password" type="password" placeholder="Enter your password" className="bg-gray-200 p-2 rounded-md sm:w-[350px] w-[300px]" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
 
                         {(reactionMessage !== "")
