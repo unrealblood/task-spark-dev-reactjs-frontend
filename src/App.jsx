@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { Footer } from "./components";
 import { Header } from "./components/header";
 import { useGetUser } from "./lib/tanstack-query/user";
 import { AllRoutes } from "./routes/AllRoutes";
@@ -20,7 +19,6 @@ function App() {
       <div className="flex-1 overflow-auto">
         <AllRoutes />
       </div>
-      <Footer />
     </div>
   );
 }

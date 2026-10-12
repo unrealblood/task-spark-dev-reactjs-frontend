@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, toggleCompleted, updateTask } from "../../redux/slices/taskSlice";
 import { useDeleteTask, useUpdateTaskCompleted, useUpdateTaskContent } from "../../lib/tanstack-query/task";
+import THEME from "../../lib/util.js";
+import { useNavigate } from "react-router";
+import { CheckCircle2, Circle, Trash2, Edit2, ChevronRight } from 'lucide-react';
 
 function TaskItem({_id, content, completed, size, index}) {
     const dispatch = useDispatch();
+
+    const inputRef = useRef(null);
 
     const [newTaskContent, setNewTaskContent] = useState(content);
     const [isTaskCompleted, setIsTaskCompleted] = useState(completed);
@@ -13,6 +18,8 @@ function TaskItem({_id, content, completed, size, index}) {
     const deleteTaskMutation = useDeleteTask(_id.toString());
     const toggleTaskCompletedMutation = useUpdateTaskCompleted(_id.toString());
     const updateTaskContentMutation = useUpdateTaskContent(_id.toString());
+
+    const navigate = useNavigate();
 
     function handleEditTask() {
         setIsEditMode(true);
@@ -38,9 +45,7 @@ function TaskItem({_id, content, completed, size, index}) {
         dispatch(deleteTask(_id));
     }
 
-    async function handleEditTaskSubmit(e) {
-        e.preventDefault();
-
+    async function handleEditTaskSubmit() {
         if(newTaskContent === "" || newTaskContent.trim().length === 0) {
             return;
         }
@@ -54,57 +59,70 @@ function TaskItem({_id, content, completed, size, index}) {
         setIsEditMode(false);
     }
 
+    useEffect(() => {
+        if (isEditMode && inputRef.current) {
+        inputRef.current.focus();
+        }
+    }, [isEditMode]);
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') await handleEditTaskSubmit();
+            if (e.key === 'Escape') {
+            setNewTaskContent(content);
+            setIsEditMode(false);
+        }
+    };
+
     return (
-        <article>
-            {isEditMode
-            ?
-            <div className={`flex justify-between items-center p-2 ${(size !== (index + 1)) && `border-b border-gray-200`}`}>
-                <div className={`text-2xl ${isTaskCompleted && `line-through`}`}>
-                    <form onSubmit={handleEditTaskSubmit} className="flex justify-between items-center gap-4 p-2">
-                        <input type="text" placeholder="New task content here" className="bg-gray-200 p-2 sm:w-[480px] w-[250px]" value={newTaskContent} onChange={(e) => setNewTaskContent(e.target.value)} />
+        <div className={`group flex items-center justify-between p-4 mb-3 rounded-xl border ${completed ? 'bg-gray-50 border-gray-100' : 'bg-white border-gray-200 shadow-sm'} hover:shadow-md transition-all duration-200`}>
+            <div className="flex items-center flex-1 gap-4">
+                <button 
+                onClick={handleToggleTaskCompletion}
+                className={`shrink-0 transition-colors ${completed ? 'text-green-500' : 'text-gray-300 hover:text-orange-400'}`}
+                >
+                {completed ? <CheckCircle2 className="w-6 h-6" /> : <Circle className="w-6 h-6" />}
+                </button>
 
-                        <div className="flex justify-start items-center gap-4">
-                            <div>
-                                <button type="submit" className="cursor-pointer">
-                                    <span className={`bi-check-circle text-green-500 text-2xl`} />
-                                </button>
-                            </div>
-
-                            <div>
-                                <button type="button" className="cursor-pointer" onClick={handleCloseEditMode}>
-                                    <span className={`bi-x-circle text-2xl text-red-500`} />
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                {isEditMode ? (
+                <div className="flex-1 flex items-center gap-2">
+                    <input
+                    ref={inputRef}
+                    type="text"
+                    value={newTaskContent}
+                    onChange={(e) => setNewTaskContent(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={handleEditTaskSubmit}
+                    className={`flex-1 px-3 py-1 text-gray-900 border-b-2 outline-none bg-transparent ${THEME.primaryBorder}`}
+                    />
                 </div>
+                ) : (
+                <span 
+                    className={`flex-1 text-lg ${completed ? 'text-gray-400 line-through' : 'text-gray-800'}`}
+                >
+                    {content}
+                </span>
+                )}
             </div>
-            :
-            <div className={`flex justify-between items-center p-2 ${(size !== (index + 1)) && `border-b border-gray-200`}`}>
-                <div className={`text-2xl ${isTaskCompleted && `line-through`}`}>{content}</div>
 
-                <div className="flex justify-start items-center gap-4">
-                    <div>
-                        <button type="button" className="cursor-pointer" onClick={handleEditTask}>
-                            <span className={`bi-pen text-2xl text-yellow-500`} />
-                        </button>
-                    </div>
-
-                    <div>
-                        <button type="button" className="cursor-pointer" onClick={handleToggleTaskCompletion}>
-                            <span className={`${isTaskCompleted ? `bi-x-circle text-blue-500` : `bi-check-circle text-green-500`} text-2xl`} />
-                        </button>
-                    </div>
-
-                    <div>
-                        <button type="button" className="cursor-pointer" onClick={handleDeleteTask}>
-                            <span className={`bi-trash text-2xl text-red-500`} />
-                        </button>
-                    </div>
-                </div>
-            </div>
-            }
-        </article>
+            <div className="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                {!isEditMode && (
+                <button 
+                    onClick={() => setIsEditMode(true)}
+                    className="p-2 text-gray-400 hover:text-blue-500 rounded-lg hover:bg-blue-50 transition-colors"
+                    title="Edit Inline"
+                >
+                    <Edit2 className="w-4 h-4" />
+                </button>
+                )}
+                <button 
+                onClick={handleDeleteTask}
+                className="p-2 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"
+                title="Delete"
+                >
+                <Trash2 className="w-4 h-4" />
+                </button>
+        </div>
+    </div>
     );
 }
 

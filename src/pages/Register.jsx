@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useRegisterUser } from "../lib/tanstack-query/auth";
+import { Sparkles } from 'lucide-react';
+import THEME from "../lib/util.js";
+import { useNavigate } from "react-router";
 
 function Register() {
     const [name, setName] = useState("");
@@ -9,6 +12,7 @@ function Register() {
     const [reactionMessageType, setReactionMessageType] = useState("success");
 
     const registerUserMutation = useRegisterUser();
+    const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -33,41 +37,79 @@ function Register() {
     }
 
     return (
-        <div className="sm:w-[500px] w-[320px] mx-auto mt-4">
-            <h1 className="text-center text-3xl font-bold underline">Register</h1>
-
-            <form onSubmit={handleSubmit}>
-                <fieldset className="border border-black p-4 rounded-md mt-4">
-                    <legend>Registration Form</legend>
-
-                    <div className="flex flex-col justify-center items-center gap-4">
-                        <div className="flex flex-col justify-start items-start gap-2">
-                            <label htmlFor="name">Full Name</label>
-                            <input id="name" type="text" placeholder="Enter your full name" className="bg-gray-200 p-2 rounded-md sm:w-[350px] w-[300px]" value={name} onChange={(e) => setName(e.target.value)} />
-                        </div>
-
-                        <div className="flex flex-col justify-start items-start gap-2">
-                            <label htmlFor="email">Email Address</label>
-                            <input id="email" type="email" placeholder="Enter your email address" className="bg-gray-200 p-2 rounded-md sm:w-[350px] w-[300px]" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-
-                        <div className="flex flex-col justify-start items-start gap-2">
-                            <label htmlFor="password">Password</label>
-                            <input id="password" type="password" placeholder="Enter your password" className="bg-gray-200 p-2 rounded-md sm:w-[350px] w-[300px]" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        </div>
-
-                        {(reactionMessage !== "")
-                        &&
-                        <div className={`${(reactionMessageType === "success") ? `text-green-500` : `text-red-500`} text-center`}>
-                            {reactionMessage}
-                        </div>}
-
-                        <div>
-                            <button type="submit" className="bg-green-500 text-white px-8 py-2 cursor-pointer p-2 rounded-md">Register</button>
-                        </div>
+        <div className={`min-h-screen flex items-center justify-center ${THEME.bgGradient} p-4`}>
+            <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md transform transition-all">
+                <div className="flex flex-col items-center mb-8">
+                    <div className="bg-orange-100 p-3 rounded-full mb-3">
+                        <Sparkles className="w-8 h-8 text-orange-500" />
                     </div>
-                </fieldset>
-            </form>
+                    <h1 className="text-3xl font-bold text-gray-900">Task Spark</h1>
+                    <p className="text-gray-500 mt-2 text-center">
+                        {'Join us and start sparking productivity.'}
+                    </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                        <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className={`w-full px-4 py-3 rounded-xl border border-gray-200 outline-none transition-shadow focus:ring-2 ${THEME.primaryBorder}`}
+                        placeholder="Full name"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={`w-full px-4 py-3 rounded-xl border border-gray-200 outline-none transition-shadow focus:ring-2 ${THEME.primaryBorder}`}
+                        placeholder="you@example.com"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <input
+                            type="password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={`w-full px-4 py-3 rounded-xl border border-gray-200 outline-none transition-shadow focus:ring-2 ${THEME.primaryBorder}`}
+                            placeholder="••••••••"
+                            />
+                    </div>
+
+                    {(reactionMessage !== "")
+                    &&
+                    <div className={`${(reactionMessageType === "success") ? `text-green-500` : `text-red-500`} text-center`}>
+                        {reactionMessage}
+                    </div>}
+                
+                    <button
+                        type="submit"
+                        className={`w-full py-3 rounded-xl font-semibold shadow-md transition-all transform active:scale-[0.98] ${THEME.primary}`}
+                    >
+                        {'Create Account'}
+                    </button>
+                </form>
+
+                <div className="mt-6 text-center">
+                    <p className="text-gray-600 text-sm">
+                        {"Already have an account? "}
+                        <button 
+                        onClick={() => navigate("/auth/login")}
+                        className={`font-semibold ${THEME.primaryText} hover:underline`}
+                        >
+                        {'Login'}
+                        </button>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }
